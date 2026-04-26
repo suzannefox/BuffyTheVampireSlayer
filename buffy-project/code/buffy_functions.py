@@ -93,7 +93,7 @@ def get_buffydata_from_wikipedia(filename):
 
 # get meta data for each series, supply the main adversary, the colour to use for the plot, 
 # from the data get the start episode number and a formatted tick label for the x axis
-def buffy_series_metadata(df):
+def _buffy_series_metadata(df):
     """Define some Series metadata and get start episode number and formatted tick label for each series from the data, 
        returning a dictionary of all the series-related data that we need for the plot."""
 
@@ -139,8 +139,11 @@ def buffy_series_metadata(df):
 
 # create the plot of viewers per episode, with vertical bands for each series, 
 # using the series metadata for the band colours and annotations, and custom x axis ticks
-def plot_buffy_viewers(df, series_info):
+def plot_buffy_viewers(df):
     """Create a Plotly line chart of Buffy the Vampire Slayer episode viewers, with vertical bands for each series"""
+
+    # get the series information
+    series_info = _buffy_series_metadata(df)
 
     # Define lists for series, adversaries, hover text, and colors
     list_hover = ["Series", "Episode", "Title"]
@@ -210,17 +213,21 @@ def plot_buffy_viewers(df, series_info):
 # episode number and title
 def filter_plot(fig, df, filter_var, filter_value):
     """Add a trace to the Buffy Series plot highlighting episodes that match the filter criteria"""
-    # filter_var = 'Writer'
-    # filter_value = 'Noxon'
+    fig2 = copy.deepcopy(fig)
+
+    if filter_var == 'writer' and filter_value == 'Select a writer...':
+        return(fig2)
+    if filter_var == 'director' and filter_value == 'Select a director...':
+        return(fig2)
+
     list_hover = ["Series", "Episode", "Title"]
 
-    if filter_var == 'Director':
+    if filter_var == 'director':
         df_highlight = df[df["Director"].str.contains(filter_value, case=False, na=False)]
-    elif filter_var == 'Writer':
+    elif filter_var == 'writer':
         df_highlight = df[df["Writer"].str.contains(filter_value, case=False, na=False)]
 
 
-    fig2 = copy.deepcopy(fig)
     fig2.add_trace(
         go.Scatter(
             x=df_highlight["Number"],
@@ -230,6 +237,7 @@ def filter_plot(fig, df, filter_var, filter_value):
             customdata=df_highlight[list_hover],
             hovertemplate = "Episode %{customdata[0]}-%{customdata[1]} : %{customdata[2]}",
             name=f"{filter_var} : {filter_value}",
+            showlegend=False,
         )
     )
 
@@ -268,3 +276,13 @@ def get_filmakers(df):
     list_directors = dict(list_directors.most_common())
 
     return(list_writers, list_directors)
+
+# get details for an episode given the episode number, returning a dictionary of the details for that episode, 
+# or None if the episode number is not found
+def get_episode_details(df, episode_number):
+    """Return a dictionary of details for the specified episode number."""
+    episode = df[df["Number"] == episode_number]
+    if episode.empty:
+        return None
+    else:
+        return episode.to_dict(orient="records")[0]
