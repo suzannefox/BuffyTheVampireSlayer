@@ -1,10 +1,11 @@
 import pandas as pd
-import re
 from datetime import datetime
+from collections import Counter
+from itertools import count
 import plotly.express as px
 import plotly.graph_objects as go
 import copy
-
+import re
 
 # Define the regex pattern to match the line format and capture the relevant fields
 # Of the semi-structured text data downloaded from Wikipedia - 
@@ -233,3 +234,37 @@ def filter_plot(fig, df, filter_var, filter_value):
     )
 
     return(fig2)
+
+# supply a text string containing the writer(s) or director(s) of an episode, and return a cleaned version 
+# of the string with extra text and formatting removed, ready for counting, individuals are delimited by &
+def _clean_names(name):
+    """Return a list of names cleaned of extra text and formatting, ready for counting."""
+    name = name.replace('"','')
+    name = name.replace('Story by : ','')
+    name = name.replace('Teleplay by : ','& ')
+    return(name)
+
+# return two person based lists of writers and directors with how many episodes they worked on, using the 
+# Counter class to count the occurrences of each name in the cleaned lists
+def get_filmakers(df):
+    """Return two person based lists of writers and directors with how many episodes they worked on"""
+    list_writers_orig = df['Writer'].to_list()
+    list_directors_orig = df['Director'].to_list()
+
+    # writers
+    list_writers_orig = df['Writer'].to_list()
+    list_writers_clean = [_clean_names(name) for name in list_writers_orig]
+    list_writers_unique = []
+    for item in list_writers_clean:
+        parts = item.split("&")
+        for p in parts:
+            list_writers_unique.append(p.strip())
+
+    list_writers = Counter(list_writers_unique)
+    list_writers = dict(list_writers.most_common())
+
+    # directors
+    list_directors = Counter(list_directors_orig)
+    list_directors = dict(list_directors.most_common())
+
+    return(list_writers, list_directors)
