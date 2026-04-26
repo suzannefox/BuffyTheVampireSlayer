@@ -25,6 +25,8 @@ if 'last_change' not in st.session_state:
 row1 = st.container()
 with row1:
     st.subheader("Episode explorer")
+    text_source = st.empty()   # create placeholder
+    text_source.write('Data sourced from Wikipedia: [Buffy the Vampire Slayer episode guide](https://en.wikipedia.org/wiki/List_of_Buffy_the_Vampire_Slayer_episodes)')
     col1, col2 = st.columns([3, 1])  # wider plot column
 
     with col2:
