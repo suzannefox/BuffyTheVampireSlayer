@@ -157,7 +157,7 @@ def plot_buffy_viewers(df):
         df,
         x="Number",
         y="Viewers",
-        title = 'Buffy the Vampire Slayer: Viewers per Episode',
+        title = 'Viewers per Episode - Click on a point to see episode details',
         labels = {"Number": "Episode Number and Release Date", 
                 "Viewers": "Viewers (millions)"},
         custom_data = list_hover, # for use later in a custom hover template
@@ -284,5 +284,11 @@ def get_episode_details(df, episode_number):
     episode = df[df["Number"] == episode_number]
     if episode.empty:
         return None
-    else:
-        return episode.to_dict(orient="records")[0]
+    
+    episode_detail =  episode.to_dict(orient="records")[0]
+    episode_text = f"Episode {episode_detail['Series']}-{episode_detail['Episode']} : {episode_detail['Title']} <br>" \
+                    f"Director: {episode_detail['Director']} <br>" \
+                    f"Writer: {episode_detail['Writer']} <br>" \
+                    f"Release Date: {episode_detail['Release']} <br>" \
+                    f"Viewers: {episode_detail['Viewers']}"
+    return(episode_text)
