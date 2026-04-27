@@ -158,10 +158,17 @@ def plot_buffy_viewers(df):
         x="Number",
         y="Viewers",
         title = 'Viewers per Episode - Click on a marker for episode details',
-        labels = {"Number": "Episode Number and Release Date", 
+        labels = {"Number": "Episode Number and Series Release Date", 
                 "Viewers": "Viewers (millions)"},
         custom_data = list_hover, # for use later in a custom hover template
         range_y=[ymin, ymax]
+    )
+
+    # don't let the title have such a big gap after it
+    # to make better use of the space
+    fig.update_layout(
+        margin=dict(t=40, b=20),
+        title=dict(y=0.99,pad=dict(t=5, b=5))
     )
 
     # Step 2. Add vertical bands for each series, with annotations

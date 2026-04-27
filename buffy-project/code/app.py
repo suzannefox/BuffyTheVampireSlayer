@@ -35,10 +35,13 @@ if 'last_selection_value' not in st.session_state:
 
 # --- Row 1 ---
 row1 = st.container()
-with row1:
-    st.subheader("Buffy Episode explorer")
-    text_source = st.empty()   # create placeholder
-    text_source.write('Data sourced from Wikipedia: [Buffy the Vampire Slayer episode guide](https://en.wikipedia.org/wiki/List_of_Buffy_the_Vampire_Slayer_episodes)')
+with row1:    
+    st.markdown("### Buffy Episode explorer")
+    
+    # st.subheader("Buffy Episode explorer")
+    # text_source = st.empty()   # create placeholder
+    # text_source.write('Data sourced from Wikipedia: [Buffy the Vampire Slayer episode guide](https://en.wikipedia.org/wiki/List_of_Buffy_the_Vampire_Slayer_episodes)')
+    
     col1, col2 = st.columns([4, 1], gap="small")  # wider plot column
 
     # because streamlit re-runs the whole script on each interaction, we need to track the last selection action 
@@ -123,6 +126,13 @@ with row1:
                     episode = clicked_point["x"]
                     episode_details = bf.get_episode_details(df, episode)
                     text_episode.markdown(episode_details, unsafe_allow_html=True)
+
+            text_source = st.empty()   # create placeholder
+            text_source.markdown(
+                "Data sourced from Wikipedia: "
+                "[Buffy the Vampire Slayer episode guide]"
+                "(https://en.wikipedia.org/wiki/List_of_Buffy_the_Vampire_Slayer_episodes)"
+            )
 
 # --- Row 3 (full width) ---
 # st.divider()
