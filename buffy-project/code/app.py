@@ -1,13 +1,17 @@
 import buffy_functions as bf
 import streamlit as st
-
+from pathlib import Path
 import pandas as pd
 import plotly.express as px
 
 st.set_page_config(layout="wide")
 
 # --- get data ---
-df = bf.get_buffydata_from_wikipedia('../data/Episode Information.txt')
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_FILE = BASE_DIR.parent / "data" / "Episode Information.txt"
+
+df = bf.get_buffydata_from_wikipedia(DATA_FILE)
 fig_buffy = bf.plot_buffy_viewers(df)
 list_writers, list_directors = bf.get_filmakers(df)
 
