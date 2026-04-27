@@ -7,7 +7,6 @@ import plotly.express as px
 st.set_page_config(layout="wide")
 
 # --- get data ---
-
 BASE_DIR = Path(__file__).resolve().parent
 DATA_FILE = BASE_DIR.parent / "data" / "Episode Information.txt"
 
@@ -37,7 +36,7 @@ if 'last_selection_value' not in st.session_state:
 # --- Row 1 ---
 row1 = st.container()
 with row1:
-    st.subheader("Episode explorer")
+    st.subheader("Buffy Episode explorer")
     text_source = st.empty()   # create placeholder
     text_source.write('Data sourced from Wikipedia: [Buffy the Vampire Slayer episode guide](https://en.wikipedia.org/wiki/List_of_Buffy_the_Vampire_Slayer_episodes)')
     col1, col2 = st.columns([4, 1], gap="small")  # wider plot column
@@ -50,7 +49,7 @@ with row1:
     # but the plot is defined in col1 and needs to know about the selection actions to update the plot accordingly.
     with col2:
 
-        st.subheader("Filters")
+        st.subheader("Highlight episodes by writer or director")
         text_info = st.empty()   # create placeholder
 
         options = [default_writer] + list(list_writers.keys())
@@ -98,7 +97,7 @@ with row1:
         elif st.session_state.last_selection_type is None:
             text_info.write('No filter applied')
         else:
-            text_filter = f'Current filter : {st.session_state.last_selection_type} is {st.session_state.last_selection_value}' 
+            text_filter = f'Highlighting : {st.session_state.last_selection_type} is {st.session_state.last_selection_value}' 
             text_info.write(text_filter)
 
         text_episode = st.empty()   # create placeholder for episode details
