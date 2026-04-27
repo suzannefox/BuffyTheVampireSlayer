@@ -115,7 +115,7 @@ with row1:
                 fig = bf.filter_plot(fig_buffy, df, st.session_state.last_selection_type, st.session_state.last_selection_value)
 
             # when the user clicks on an episode it displays the full details
-            event = st.plotly_chart(fig, use_container_width=True, height = 'content',on_select='rerun')
+            event = st.plotly_chart(fig, use_container_width=True, height = 'content', on_select='rerun')
             if event and event.selection:
                 points = event.selection["points"]
                 if points:

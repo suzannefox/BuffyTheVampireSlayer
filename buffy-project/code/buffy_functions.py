@@ -157,7 +157,7 @@ def plot_buffy_viewers(df):
         df,
         x="Number",
         y="Viewers",
-        title = 'Viewers per Episode - Click on a point to see episode details',
+        title = 'Viewers per Episode - Click on a marker for episode details',
         labels = {"Number": "Episode Number and Release Date", 
                 "Viewers": "Viewers (millions)"},
         custom_data = list_hover, # for use later in a custom hover template
@@ -189,10 +189,13 @@ def plot_buffy_viewers(df):
         tickangle=0.1
     )
 
-    # Step 4. Customise hover template and line style
+    # Step 4. Customise hover template, line and marker style
     fig.update_traces(
         mode="lines+markers",
-        line_color='#786FB0', line_width=3,
+        marker=dict(size=8, color='#FFDFA8', opacity=0.6, line=dict(width=2, color='purple')),
+        selected=dict(marker=dict(opacity=0.6)),
+        unselected=dict(marker=dict(opacity=0.6)),
+        line_color='#786FB0', line_width=1,
         hovertemplate = "Episode %{customdata[0]}-%{customdata[1]} : %{customdata[2]}"
     )
 
@@ -233,10 +236,12 @@ def filter_plot(fig, df, filter_var, filter_value):
             x=df_highlight["Number"],
             y=df_highlight["Viewers"],
             mode="markers",
-            marker=dict(color="red", size=10),
+            marker=dict(color="red", size=15, opacity=0.6),
+            selected=dict(marker=dict(opacity=0.6)),
+            unselected=dict(marker=dict(opacity=0.6)),
             customdata=df_highlight[list_hover],
             hovertemplate = "Episode %{customdata[0]}-%{customdata[1]} : %{customdata[2]}",
-            name=f"{filter_var} : {filter_value}",
+            name=f"",
             showlegend=False,
         )
     )
