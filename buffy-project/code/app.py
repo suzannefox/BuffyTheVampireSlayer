@@ -97,7 +97,7 @@ with row1:
         elif st.session_state.last_selection_type is None:
             text_info.write('Nothing chosen currently')
         else:
-            text_filter = f'Highlighting : {st.session_state.lst_selection_type} is {st.session_state.last_selection_value}' 
+            text_filter = f'Highlighting : {st.session_state.last_selection_type} is {st.session_state.last_selection_value}' 
             text_info.write(text_filter)
 
         text_episode = st.empty()   # create placeholder for episode details
