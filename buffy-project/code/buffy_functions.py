@@ -298,9 +298,9 @@ def get_episode_details(df, episode_number):
         return None
     
     episode_detail =  episode.to_dict(orient="records")[0]
-    episode_text = f"Episode {episode_detail['Series']}-{episode_detail['Episode']} : {episode_detail['Title']} <br>" \
-                    f"Director: {episode_detail['Director']} <br>" \
-                    f"Writer: {episode_detail['Writer']} <br>" \
-                    f"Release Date: {episode_detail['Release']} <br>" \
+    episode_text = f"Episode {episode_detail['Series']}-{episode_detail['Episode']} : {episode_detail['Title']}, " \
+                    f"Director: {episode_detail['Director']}, " \
+                    f"Writer: {episode_detail['Writer']}, " \
+                    f"Release Date: {episode_detail['Release']}, " \
                     f"Viewers: {episode_detail['Viewers']}"
     return(episode_text)
